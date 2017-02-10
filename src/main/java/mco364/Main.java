@@ -9,26 +9,34 @@ class MyThread extends Thread {    // the entry point of a thread is run
 
     private static Random numberGen = new Random();
     public static double sharedAverage;
-    int LOOP_MAX = 0; 
-    long total;
+    int LOOP_MAX = 0;
+    static long total;
     double average;
+    static int i = 0;
 
-    MyThread(int number) {
-        LOOP_MAX =  (100000000 / number);
-    }
+//    MyThread(int number) {
+//        LOOP_MAX = (100000000 / number);
+//    }
 
     @Override
     public void run() {
 
-        for (int i = 0; i < LOOP_MAX; i++) {
-            total += numberGen.nextInt(100) + 1;
+        while (i < 100000000) {
+            synchronized ("BathroomKey") { // only one thread may enter at a time
+                total += numberGen.nextInt(100) + 1;
+                i++;
+            }
         }
+        
+//        for (i = 0; i < 100000000; i ++) {
+//            total += numberGen.nextInt(100) + 1;
+//        }
 
-        average = (double) total / LOOP_MAX;
- 
-        synchronized ("BathroomKey") { // only one thread may enter at a time
-            MyThread.sharedAverage += average;
-        }
+//        average = (double) total / LOOP_MAX;
+//
+//        synchronized ("BathroomKey") { // only one thread may enter at a time
+//            MyThread.sharedAverage += average;
+//        }
 
     }
 
@@ -59,13 +67,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int numberOfThreads = 10;
+        int numberOfThreads = 1;
         StopWatch timer = new StopWatch();
 
         ArrayList<MyThread> threadList = new ArrayList<>();
         timer.startTimer();
         for (int i = 0; i < numberOfThreads; i++) {
-            MyThread t = new MyThread(numberOfThreads);
+            MyThread t = new MyThread();
             threadList.add(t);
             t.start();
         }
@@ -78,8 +86,10 @@ public class Main {
             }
         }
 
+        double avg = (double)MyThread.total/100000000;
+        System.out.println(avg);
         //double avg = MyThread.sharedAverage / numberOfThreads;
-        System.out.println(MyThread.sharedAverage / numberOfThreads);
+        //System.out.println(MyThread.sharedAverage / numberOfThreads);
         System.out.println(timer.stopTimer());
 
     }
