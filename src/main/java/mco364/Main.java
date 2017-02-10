@@ -25,7 +25,7 @@ class MyThread extends Thread {    // the entry point of a thread is run
         }
 
         average = (double) total / LOOP_MAX;
-
+ 
         synchronized ("BathroomKey") { // only one thread may enter at a time
             MyThread.sharedAverage += average;
         }
