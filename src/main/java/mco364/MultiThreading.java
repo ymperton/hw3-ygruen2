@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class MyThread extends Thread {    // the entry point of a thread is run
+class MyThread extends Thread { 
 
     private Random numberGen = new Random();
     private final int NUMBER_OF_ADDITIONS = 100000000;
@@ -23,23 +23,14 @@ class MyThread extends Thread {    // the entry point of a thread is run
     private int numberOfLoops = 0;
     private long total;
     private double average;
-    //private static boolean extraNotAdded = true;
-    //private int extra;
 
     MyThread(int number) {
         numberOfLoops = (NUMBER_OF_ADDITIONS / number);
-        //extra = NUMBER_OF_ADDITIONS % number;
     }
 
     @Override
     public void run() {
 
-//        synchronized ("Some Key") {
-//            if (extraNotAdded) {
-//                numberOfLoops += extra;
-//                extraNotAdded = false;
-//            }
-//        }
         for (int i = 0; i < numberOfLoops; i++) {
             total += numberGen.nextInt(100) + 1;
         }
@@ -63,12 +54,6 @@ class StopWatch {
         startTime = System.currentTimeMillis();
     }
 
-    /**
-     * returns the number of milliseconds since startTimer was called. If
-     * startTimer was never called, or stopTimer was already called once, throws
-     * an TimerException (a subclass of RuntimeException) with an appropriate
-     * message
-     */
     public int stopTimer() {
 
         if (startTime == 0) {
