@@ -1,3 +1,13 @@
+
+
+/*
+
+I think i misunderstood the hw, and assumed there were two parts to the HW. So that's what I did...Sorry
+
+*/
+
+
+
 package mco364;
 
 import java.util.ArrayList;
